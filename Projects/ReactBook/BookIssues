@@ -3,3 +3,5 @@ Chapter 2
     Issue on Page 19
     React.renderElement references the wrong name.  It should reference contents not content.
 
+    Material for differences in --save-dev and --no-save
+    https://www.geeksforgeeks.org/what-is-the-difference-between-save-and-save-dev-in-node-js/
