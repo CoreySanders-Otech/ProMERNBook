@@ -1,3 +1,4 @@
+
 class IssueFilter extends React.Component {
     render() {
         return (
@@ -11,10 +12,10 @@ class IssueFilter extends React.Component {
 class IssueRow extends React.Component {
     render() {
         const style = this.props.rowStyle;
-        return (
+         return (
             <tr>
                 <td style={style}>{this.props.issue_id}</td>
-                <td style={style}>{this.props.issue_title}</td>
+                <td style={style}>{this.props.children}</td>
             </tr>
         )
     }
@@ -24,6 +25,11 @@ class IssueRow extends React.Component {
 class IssueTable extends React.Component {
     render() {
         const rowStyle = {border: "1px solid silver", padding: 4};
+        const issues = [
+            {id: 1, status: 'New', owner: 'Ravan', efford: 5,
+             created: new Date(2018-08-15), due: undefined,
+            title: 'Error in console when '}
+        ]
         return (
             <table style={{borderCollapse: "collapse"}}>
                 <thead>
@@ -33,8 +39,12 @@ class IssueTable extends React.Component {
                     </tr>
                 </thead>
                 <tbody>
-                    <IssueRow issue_title="Error in console when clicking Add" issue_id="1" rowStyle={rowStyle}/>
-                    <IssueRow issue_title="Missing bottom border on panel" issue_id="2" rowStyle={rowStyle} />
+                    <IssueRow issue_id="1" rowStyle={rowStyle}>
+                        Error in console when clicking Add
+                    </IssueRow>
+                    <IssueRow issue_id="2" rowStyle={rowStyle}>
+                        Missing <b>bottom</b> border on panel
+                    </IssueRow>
                 </tbody>
             </table>
         )

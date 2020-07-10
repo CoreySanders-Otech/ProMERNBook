@@ -5,3 +5,7 @@ Chapter 2
 
     Material for differences in --save-dev and --no-save
     https://www.geeksforgeeks.org/what-is-the-difference-between-save-and-save-dev-in-node-js/
+
+Chapter 3
+    Issue on page 55
+    Typo on status: New',  this should be status: 'New'
