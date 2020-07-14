@@ -26,10 +26,7 @@ class IssueRow extends React.Component {
     }
 }
 
-
-class IssueTable extends React.Component {
-    render() {
-        const issues = [
+const initialIssues = [
             {id: 1, status: 'New', owner: 'Ravan', efford: 5,
              created: new Date('2018-08-15'), due: undefined,
             title: 'Error in console when '},
@@ -38,7 +35,14 @@ class IssueTable extends React.Component {
              title: 'Missing bottom border on panel'}
         ];
 
-        const issueRows = issues.map(issue => <IssueRow key={issue.id} issue={issue} />);
+class IssueTable extends React.Component {
+    constructor() {
+        super();
+        this.state = { issues: initialIssues };
+    }
+    
+    render() {
+        const issueRows = this.state.issues.map(issue => <IssueRow key={issue.id} issue={issue} />);
         return (
             <table style={{borderCollapse: "collapse"}}>
                 <thead>
