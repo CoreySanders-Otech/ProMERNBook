@@ -1,3 +1,9 @@
+const dateRegex = new RegExp('^\\d\\d\\d\\d-\\d\\d-\\d\\d');
+
+function jsonDateReviver(key, value) {
+    if (dateRegex.test(value)) return new Date(value);
+    return value;
+}
 
 class IssueFilter extends React.Component {
     render() {
@@ -16,23 +22,13 @@ function IssueRow(props) {
             <td>{issue.id}</td>
             <td>{issue.status}</td>
             <td>{issue.owner}</td>
-            <td>{issue.created.toDateString()}</td>
+            <td>{issue.created}</td>
             <td>{issue.effort}</td>
-            <td>{issue.due ? issue.due.toDateString() : ''}</td>
+            <td>{issue.due}</td>
             <td>{issue.title}</td>
         </tr>
     )
 }
-
-const initialIssues = [
-            {id: 1, status: 'New', owner: 'Ravan', efford: 5,
-             created: new Date('2018-08-15'), due: undefined,
-            title: 'Error in console when '},
-            {id: 2, status: 'Assigned', owner: 'Eddie', effort: 14,
-             created: new Date('2018-08-30'), due: new Date('2018-08-30'),
-             title: 'Missing bottom border on panel'}
-        ];
-
 
 function IssueTable(props) {
     const issueRows = props.issues.map(issue => <IssueRow key={issue.id} issue={issue} />);
@@ -67,7 +63,7 @@ class IssueAdd extends React.Component {
         e.preventDefault();
         const form = document.forms.issueAdd;
         const issue = {
-            owner: form.owner.value, title: form.title.value, status: 'New',
+            due: new Date(new Date().getTime() + 1000*60*60*24*10)
         };
         this.props.createIssue(issue);
         form.owner.value = "";
@@ -96,10 +92,24 @@ class IssueList extends React.Component {
         this.loadData();
     }
 
-    loadData() {
-        setTimeout(() => {
-            this.setState({ issues: initialIssues })
-        }, 500);
+    async loadData() {
+        const query = `query {
+            issueList {
+                id title status owner
+                created effort due
+            }
+        }`;
+
+        const response = await fetch('/graphql', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json'},
+            body: JSON.stringify({query})
+        });
+
+        const body = await response.text();
+        const result = JSON.parse(body, jsonDateReviver);
+
+        this.setState({ issues: result.data.issueList });
     }
 
     createIssue(issue) {
