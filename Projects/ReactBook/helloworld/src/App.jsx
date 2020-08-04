@@ -22,9 +22,9 @@ function IssueRow(props) {
             <td>{issue.id}</td>
             <td>{issue.status}</td>
             <td>{issue.owner}</td>
-            <td>{issue.created.toDateString()}</td>
+            <td>{issue.created}</td>
             <td>{issue.effort}</td>
-            <td>{issue.due ? issue.due.toDateString() : ' '}</td>
+            <td>{issue.due}</td>
             <td>{issue.title}</td>
         </tr>
     )
@@ -63,7 +63,7 @@ class IssueAdd extends React.Component {
         e.preventDefault();
         const form = document.forms.issueAdd;
         const issue = {
-            due: new Date(new Date().getTime() + 1000*60*60*24*10),
+            due: new Date(new Date().getTime() + 1000*60*60*24*10)
         };
         this.props.createIssue(issue);
         form.owner.value = "";
@@ -102,7 +102,7 @@ class IssueList extends React.Component {
 
         const response = await fetch('/graphql', {
             method: 'POST',
-            headers: { 'Conent-Type': 'application/json'},
+            headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({query})
         });
 

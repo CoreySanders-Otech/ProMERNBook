@@ -1,4 +1,4 @@
-const fs = require('fs'); 
+const fs = require('fs');
 const express = require('express');
 const { ApolloServer } = require('apollo-server-express');
 const { GraphQLScalarType } = require('graphql');
@@ -60,7 +60,7 @@ function issueList() {
 
 function issueAdd(_, { issue }) {
     issue.created = new Date();
-    issue.id = issuesDB.length + 1; 
+    issue.id = issuesDB.length + 1;
     issue.status = (issue.status == undefined) ? 'New' : issue.status;
     issuesDB.push(issue);
     return issue;
